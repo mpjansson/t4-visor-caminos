@@ -84,11 +84,22 @@ const MTN50Layer = new TileLayer({
   type: "base",
 });
 
+//capa geoJSON
+const CaminosLayer = new VectorLayer({
+  title: "Caminos de Santiago",
+  visible: true,
+  source: new VectorSource({
+    format: new GeoJSON(),
+    url:"./data/caminos_santiago.geojson",
+  }),
+});
+
+
 //Map
 
 const map = new Map({
   target: 'map',
-  layers: [omsLayer,ortoPNOALayer, MTN50Layer],
+  layers: [omsLayer,ortoPNOALayer, MTN50Layer, CaminosLayer],
   view: new View({
     center: center_4326,
     zoom:6,
