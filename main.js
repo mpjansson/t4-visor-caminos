@@ -61,13 +61,25 @@ const omsLayer=new TileLayer({
   source: new OSM(),
 });
 
+//capas WMS
+const ortoPNOALayer = new TileLayer({
+  title: "PNOA",
+  source: new TileWMS({
+    url: "https://www.ign.es/wms-inspire/pnoa-ma?",
+    params: { LAYERS: "OI.OrthoimageCoverage", TILED: true },
+    attributions:
+      '© <a href="https://www.ign.es/web/ign/portal">Instituto Geográfico Nacional</a>',
+  }),
+  type: "base",
+});
+
 
 
 //Map
 
 const map = new Map({
   target: 'map',
-  layers: [omsLayer],
+  layers: [omsLayer,ortoPNOALayer],
   view: new View({
     center: center_4326,
     zoom:6,
