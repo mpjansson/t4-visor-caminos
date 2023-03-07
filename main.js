@@ -22,6 +22,16 @@ import {
   Control,
 } from "ol/control";
 
+//Estilos
+import {
+  Text,
+  Icon,
+  Circle as CircleStyle,
+  Fill,
+  Stroke,
+  Style,
+} from "ol/style";
+
 const center_4326=fromLonLat([-3.6667,40.5])
 const spainExtent = [-4242152.2315, 2253314.7512, 3506727.948, 6152214.69];
 const corunia_extent=[-1051943, 5103303, -819030, 5467062];
@@ -85,6 +95,80 @@ const MTN50Layer = new TileLayer({
 });
 
 //capa geoJSON
+
+//    Temático de los Caminos por campo Agrupación
+
+const CaminoAgrupaStyle=function(feature){
+  let agrupaCaminos= feature.get("agrupacion");
+  let stroke_white = new Stroke({ color: "white", width: 1.25 });
+  if(agrupaCaminos ==='Camino Francés'){
+    return new Style({
+      stroke: new Stroke({color: "red", width: 1.25})
+    });
+  } else  if(agrupaCaminos ==='Caminos Andaluces'){
+    return new Style({
+      stroke: new Stroke({color: "green", width: 1.25})
+    });
+  } else  if(agrupaCaminos ==='Caminos Catalanes'){
+    return new Style({
+      stroke: new Stroke({color: "blue", width: 1.25})
+    });
+  } else  if(agrupaCaminos ==='Caminos de Galicia'){
+    return new Style({
+      stroke: new Stroke({color: "purple", width: 1.25})
+    });
+  } else  if(agrupaCaminos ==='Caminos del Centro'){
+    return new Style({
+      stroke: new Stroke({color: "fuchsia", width: 1.25})
+    });  
+  } else  if(agrupaCaminos ==='Caminos del Este'){
+    return new Style({
+      stroke: new Stroke({color: "lime", width: 1.25})
+    });      
+  } else  if(agrupaCaminos ==='Caminos del Norte'){
+    return new Style({
+      stroke: new Stroke({color: "aqua", width: 1.25})
+    }); 
+  } else  if(agrupaCaminos ==='Caminos Insulares'){
+    return new Style({
+      stroke: new Stroke({color: "coral", width: 1.25})
+    }); 
+  } else  if(agrupaCaminos ==='Caminos Portugueses'){
+    return new Style({
+      stroke: new Stroke({color: "darkslategray", width: 1.25})
+    }); 
+  } else  if(agrupaCaminos ==='Chemins vers Via des Piemonts'){
+    return new Style({
+      stroke: new Stroke({color: "gold", width: 1.25})
+    });     
+  } else  if(agrupaCaminos ==='Chemins vers Via Turonensis'){
+    return new Style({
+      stroke: new Stroke({color: "lightslategray", width: 1.25})
+    });     
+  } else  if(agrupaCaminos ==='Via Tolosana Arles'){
+    return new Style({
+      stroke: new Stroke({color: "gray", width: 1.25})
+    }); 
+  } else  if(agrupaCaminos ==='Voie des Piemonts'){
+    return new Style({
+      stroke: new Stroke({color: "maroon", width: 1.25})
+    }); 
+  } else  if(agrupaCaminos ==='Voie Turonensis - Paris'){
+    return new Style({
+      stroke: new Stroke({color: "navy", width: 1.25})
+    });     
+  } else  if(agrupaCaminos ==='Caminos del Sureste'){
+    return new Style({
+      stroke: new Stroke({color: "brown", width: 1.25})
+    }); 
+  } else {
+    return new Style({
+      stroke: stroke_white,
+    });
+  }
+};
+
+
 const CaminosLayer = new VectorLayer({
   title: "Caminos de Santiago",
   visible: true,
@@ -92,6 +176,9 @@ const CaminosLayer = new VectorLayer({
     format: new GeoJSON(),
     url:"./data/caminos_santiago.geojson",
   }),
+  style:function(feature){
+    return CaminoAgrupaStyle(feature);
+  },
 });
 
 
