@@ -73,13 +73,22 @@ const ortoPNOALayer = new TileLayer({
   type: "base",
 });
 
-
+const MTN50Layer = new TileLayer({
+  title: "MTN50",
+  source: new TileWMS({
+    url: "https://www.ign.es/wms/primera-edicion-mtn",
+    params: { LAYERS: "MTN50", TILED: true },
+    attributions:
+      '© <a href="https://www.ign.es/web/ign/portal">Instituto Geográfico Nacional</a>',
+  }),
+  type: "base",
+});
 
 //Map
 
 const map = new Map({
   target: 'map',
-  layers: [omsLayer,ortoPNOALayer],
+  layers: [omsLayer,ortoPNOALayer, MTN50Layer],
   view: new View({
     center: center_4326,
     zoom:6,
