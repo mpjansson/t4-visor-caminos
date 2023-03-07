@@ -1,7 +1,12 @@
 import './style.css';
 import {Map, View} from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
+//import TileLayer from 'ol/layer/Tile';
+//import OSM from 'ol/source/OSM';
+
+import { OSM, TileWMS, Vector as VectorSource } from "ol/source";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+
+import GeoJSON from "ol/format/GeoJSON";
 
 import {fromLonLat} from 'ol/proj';
 import sync from "ol-hashed";
@@ -49,15 +54,20 @@ const extendControls = [
   // infoControl
 ];
 
+//Capas
+
+//capa OMS
+const omsLayer=new TileLayer({
+  source: new OSM(),
+});
+
+
+
 //Map
 
 const map = new Map({
   target: 'map',
-  layers: [
-    new TileLayer({
-      source: new OSM()
-    })
-  ],
+  layers: [omsLayer],
   view: new View({
     center: center_4326,
     zoom:6,
