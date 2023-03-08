@@ -4,7 +4,11 @@ import {Map, View} from 'ol';
 //import OSM from 'ol/source/OSM';
 
 import { OSM, TileWMS, Vector as VectorSource } from "ol/source";
-import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import { 
+  Tile as TileLayer, 
+  Vector as VectorLayer, 
+  Group as LayerGroup,
+} from "ol/layer";
 
 import GeoJSON from "ol/format/GeoJSON";
 
@@ -194,19 +198,19 @@ const CaminosLayer = new VectorLayer({
 
 // Popup
 
-// Variables asociadas a los objetos HTML
+//      Variables asociadas a los objetos HTML
 const container = document.getElementById("popup");
 const content = document.getElementById("popup-content");
 const closer = document.getElementById("popup-closer");
 
-// Evento para ocultar popup
+//      Evento para ocultar popup
 closer.onclick = function () {
   overlay.setPosition(undefined);
   closer.blur();
   return false;
 };
 
-// Objeto overlay de OL
+//      Objeto overlay de OL
 const overlay = new Overlay({
   element: container,
   autoPan: true,
@@ -215,12 +219,24 @@ const overlay = new Overlay({
   },
 });
 
+//Grupos de capas  Layerswitcher
+const baseMaps_layers = new LayerGroup({
+  title: "Mapas base",
+  layers: [ortoPNOALayer, osmLayer, MTN50Layer],
+});
+
+const overlays_layers = new LayerGroup({
+  fold: "open",
+  title: "Capas",
+  layers: [CaminosLayer],
+});
 
 //Map
 
 const map = new Map({
   target: 'map',
-  layers: [osmLayer,ortoPNOALayer, MTN50Layer, CaminosLayer],
+  layers: [baseMaps_layers, overlays_layers],
+  //layers:[ortoPNOALayer, osmLayer, MTN50Layer,CaminosLayer],
   view: new View({
     center: center_4326,
     zoom:5.5,
@@ -269,3 +285,10 @@ map.on("pointermove", function (evt) {
     ? "pointer"
     : "";
 });
+
+// Layerswitcher
+const layerSwitcher = new LayerSwitcher({
+  tipLabel: "Leyenda",
+});
+
+map.addControl(layerSwitcher);
